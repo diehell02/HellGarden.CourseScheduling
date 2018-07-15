@@ -3,7 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HellGarden.CourseScheduling.ClassLibrary", "HellGarden.CourseScheduling.ClassLibrary\HellGarden.CourseScheduling.ClassLibrary.csproj", "{F87C7A15-6860-4E60-BF28-8277347466F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HellGarden.CourseScheduling.Contracts", "HellGarden.CourseScheduling.Contracts\HellGarden.CourseScheduling.Contracts.csproj", "{D2737A7B-6A12-4984-A426-66FBE2E90D51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HellGarden.CourseScheduling.DataAccess", "HellGarden.CourseScheduling.DataAccess\HellGarden.CourseScheduling.DataAccess.csproj", "{B9317BAE-B959-4CBE-AF39-5B78B45EB06C}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F87C7A15-6860-4E60-BF28-8277347466F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F87C7A15-6860-4E60-BF28-8277347466F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F87C7A15-6860-4E60-BF28-8277347466F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F87C7A15-6860-4E60-BF28-8277347466F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2737A7B-6A12-4984-A426-66FBE2E90D51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2737A7B-6A12-4984-A426-66FBE2E90D51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2737A7B-6A12-4984-A426-66FBE2E90D51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2737A7B-6A12-4984-A426-66FBE2E90D51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9317BAE-B959-4CBE-AF39-5B78B45EB06C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9317BAE-B959-4CBE-AF39-5B78B45EB06C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9317BAE-B959-4CBE-AF39-5B78B45EB06C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9317BAE-B959-4CBE-AF39-5B78B45EB06C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
