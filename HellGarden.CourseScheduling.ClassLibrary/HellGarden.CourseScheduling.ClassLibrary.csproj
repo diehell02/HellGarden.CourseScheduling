@@ -4,4 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HellGarden.CourseScheduling.Contracts\HellGarden.CourseScheduling.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

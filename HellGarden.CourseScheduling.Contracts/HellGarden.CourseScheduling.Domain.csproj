@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>HellGarden.CourseScheduling.Domain</AssemblyName>
+    <RootNamespace>HellGarden.CourseScheduling.Domain</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Interface\IClass.cs" />
+    <Compile Remove="Interface\ICourse.cs" />
+    <Compile Remove="Interface\ILesson.cs" />
+    <Compile Remove="Interface\ISchedule.cs" />
+    <Compile Remove="Interface\ITeacher.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interface\" />
+    <Folder Include="Service\" />
+  </ItemGroup>
+
+</Project>
