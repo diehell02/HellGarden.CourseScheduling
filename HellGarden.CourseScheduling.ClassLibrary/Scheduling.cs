@@ -10,9 +10,9 @@ namespace HellGarden.CourseScheduling.ClassLibrary
 {
     public class Scheduling
     {
-        public List<Schedule[]> Do(ClassRepository classRepository, ScheduleRepository scheduleRepository, LessonRepository lessonRepository)
+        public Schedule[] Do(ClassRepository classRepository, ScheduleRepository scheduleRepository, LessonRepository lessonRepository)
         {
-            List<Schedule[]> result = new List<Schedule[]>();
+            Schedule[] result = null;
 
             var lessons = lessonRepository.GetLessons();
 
@@ -20,33 +20,75 @@ namespace HellGarden.CourseScheduling.ClassLibrary
             var classesCount = classes.Count();
             List<Schedule> schedules = new List<Schedule>();
             int count = 0;
+            
+            List<Class> isScheduleClasses = new List<Class>();
 
-            while(count++ < 100000)
+            while(true)
             {
+                count++;
                 //int index = new Random().Next(classesCount);
                 //classes.ElementAt(index).Swap();
 
-                schedules.Clear();
+                //schedules.Clear();
 
                 bool flag0 = false;
                 foreach (var @class in classes)
                 {
+                    if(isScheduleClasses.Contains(@class))
+                    {
+                        continue;
+                    }
+
                     @class.ResetCourse();
 
                     bool flag1 = false;
+                    List<Schedule> _schedules = new List<Schedule>();
 
-                    foreach (var lesson in lessons)
+                    //foreach (var lesson in lessons)
+                    //{
+                    //    var lessonID = lesson.ID;
+
+                    //    var course = @class.GetAvailableCourse(lessonID);
+
+                    //    var teacherID = course.TeacherID;
+
+                    //    if (!scheduleRepository.IsTeacherAvaliable(teacherID, lessonID))
+                    //    {
+                    //        flag1 = true;
+                    //        break;
+                    //    }
+                    //    else
+                    //    {
+                    //        if(teacherID > 0)
+                    //        {
+                    //            var temp = new List<Schedule>();
+                    //            temp.AddRange(schedules);
+                    //            temp.AddRange(_schedules);
+
+                    //            var _schedulesResult = temp.Where(schedule => schedule.TeacherID > 0 && schedule.TeacherID == teacherID && schedule.LessonID == lessonID);
+                    //            if (_schedulesResult.Count() > 0)
+                    //            {
+                    //                flag1 = true;
+                    //                break;
+                    //            }
+                    //        }
+
+                    //        flag1 = false;
+                    //        course.ScheduleLesson();
+                    //        _schedules.Add(new Schedule(ScheduleType.Schedule, @class.ID, lessonID, teacherID, course.CourseType));
+                    //        continue;
+                    //    }
+                    //}
+
+                    var keyValuePairs = @class.GetLessonCourses(new List<Lesson>(lessons));
+
+                    foreach(var keyValuePair in keyValuePairs)
                     {
-                        var lessonID = lesson.ID;
-
-                        var course = @class.GetAvailableCourse();
-
-                        if (course is null)
-                        {
-                            break;
-                        }
+                        var lesson = keyValuePair.Key;
+                        var course = keyValuePair.Value;
 
                         var teacherID = course.TeacherID;
+                        var lessonID = lesson.ID;
 
                         if (!scheduleRepository.IsTeacherAvaliable(teacherID, lessonID))
                         {
@@ -55,36 +97,70 @@ namespace HellGarden.CourseScheduling.ClassLibrary
                         }
                         else
                         {
-                            var _schedules = schedules.Where(schedule => schedule.TeacherID == teacherID && schedule.LessonID == lessonID);
-                            if (_schedules.Count() > 0)
+                            if (teacherID > 0)
                             {
-                                flag1 = true;
-                                break;
+                                var temp = new List<Schedule>();
+                                temp.AddRange(schedules);
+                                temp.AddRange(_schedules);
+
+                                var _schedulesResult = temp.Where(schedule => schedule.TeacherID > 0 && schedule.TeacherID == teacherID && schedule.LessonID == lessonID);
+                                if (_schedulesResult.Count() > 0)
+                                {
+                                    flag1 = true;
+                                    break;
+                                }
                             }
 
+                            flag1 = false;
                             course.ScheduleLesson();
-                            schedules.Add(new Schedule(ScheduleType.Schedule, @class.ID, lessonID, teacherID));
+                            _schedules.Add(new Schedule(ScheduleType.Schedule, @class.ID, lessonID, teacherID, course.CourseType));
+                            continue;
                         }
                     }
 
                     if (flag1)
                     {
-                        flag0 = true;
-                        break;
+                        continue;
+                    }
+                    else
+                    {
+                        isScheduleClasses.Add(@class);
+                        schedules.AddRange(_schedules);
                     }
                 }
 
-                if (!flag0)
+                if (isScheduleClasses.Count == classesCount)
                 {
-                    // 保存结果
-                    schedules.AddRange(scheduleRepository.GetSchedules());
-                    var array = new Schedule[schedules.Count];
-                    schedules.CopyTo(array);
-                    result.Add(array);
+                    // 筛选结果
+                    foreach(var lesson in lessons)
+                    {
+                        var id = lesson.ID;
+
+                        var _schedules = schedules.Where(schedule => schedule.LessonID == id && schedule.TeacherID > 0);
+                        var distinct = _schedules.Distinct(m => m.TeacherID);
+
+                        if (distinct.Count() < _schedules.Count())
+                        {
+                            isScheduleClasses.Clear();
+                            schedules.Clear();
+                        }
+                    }
+
+
+                    if(schedules.Count > 0)
+                    {
+                        // 保存结果
+                        result = new Schedule[schedules.Count];
+                        schedules.CopyTo(result);
+
+                        break;
+                    }
+                    else
+                    {
+                        continue;
+                    }
                 }
             }
-
-            // 筛选结果
 
             return result;
         }

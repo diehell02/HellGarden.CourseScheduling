@@ -17,11 +17,13 @@ namespace HellGarden.CourseScheduling.ConsoleApp
 
             var result = scheduling.Do(new TestClassRepository(), new TestScheduleRepository(), new TestLessonRepository());
 
-            result.ForEach(schedules =>
-            {
-                Console.WriteLine("——————————————分割线——————————————");
-                Console.WriteLine(JsonConvert.SerializeObject(schedules, Formatting.Indented));
-            });
+            //result.ForEach(schedules =>
+            //{
+            //    Console.WriteLine("——————————————分割线——————————————");
+            //    Console.WriteLine(JsonConvert.SerializeObject(schedules, Formatting.Indented));
+            //});
+
+            FileUtil.Save(result, new TestClassRepository(), new TestLessonRepository());
 
             Console.ReadLine();
         }

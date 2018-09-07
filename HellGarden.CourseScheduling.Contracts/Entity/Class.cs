@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace HellGarden.CourseScheduling.Domain.Entity
 {
     public class Class
     {
+        Random random = new Random();
+
         public Class(int id, string name, Course[] courses)
         {
             ID = id;
@@ -27,28 +30,58 @@ namespace HellGarden.CourseScheduling.Domain.Entity
 
         public Course[] Courses { get; private set; }
 
-        public Course GetAvailableCourse()
+        public Course GetAvailableCourse(int lessonID)
         {
             List<Course> courses = new List<Course>();
 
-            foreach(var course in Courses)
+            foreach (var course in Courses)
             {
-                if(course.RemainLessonPeriod > 0)
+                if (course.RemainLessonPeriod > 0)
                 {
-                    courses.Add(course);
+                    for (int i = 0; i < course.RemainLessonPeriod; i++)
+                    {
+                        courses.Insert(random.Next(courses.Count), course);
+                    }
                 }
             }
 
-            if(courses.Count > 0)
-            {
-                int index = new Random().Next(courses.Count);
+            return courses[random.Next(courses.Count)];
+        }
 
-                return courses[index];
-            }
-            else
+        public List<KeyValuePair<Lesson, Course>> GetLessonCourses(List<Lesson> lessons)
+        {
+            List<KeyValuePair<Lesson, Course>> keyValuePairs = new List<KeyValuePair<Lesson, Course>>();
+            List<Course> courses = new List<Course>();
+
+            foreach (var course in Courses)
             {
-                return null;
+                if (course.RemainLessonPeriod > 0)
+                {
+                    for (int i = 0; i < course.RemainLessonPeriod; i++)
+                    {
+                        courses.Insert(random.Next(courses.Count), course);
+                    }
+                }
             }
+
+            courses.ForEach(course =>
+            {
+                var lesson = lessons[random.Next(lessons.Count)];
+                lessons.Remove(lesson);
+
+                var keyValuePair = new KeyValuePair<Lesson, Course>(lesson, course);
+
+                keyValuePairs.Insert(random.Next(keyValuePairs.Count), keyValuePair);
+            });
+
+            lessons.ForEach(lesson =>
+            {
+                var keyValuePair = new KeyValuePair<Lesson, Course>(lesson, null);
+
+                keyValuePairs.Insert(random.Next(keyValuePairs.Count), keyValuePair);
+            });
+
+            return keyValuePairs;
         }
 
         public void ResetCourse()

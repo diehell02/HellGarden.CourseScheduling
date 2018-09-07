@@ -12,5 +12,12 @@ namespace HellGarden.CourseScheduling.Domain.Enum
         Physics,
         Chemistry,
         Biology,
+        Politics,
+        History,
+        Geography,
+        Sports,
+        Study,
+        Listening,
+        Meeting,
     }
 }

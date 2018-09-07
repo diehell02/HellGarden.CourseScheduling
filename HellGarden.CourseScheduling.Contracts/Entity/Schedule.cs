@@ -7,12 +7,13 @@ namespace HellGarden.CourseScheduling.Domain.Entity
 {
     public class Schedule
     {
-        public Schedule(ScheduleType scheduleType, int classID, int lessonID, int teacherID)
+        public Schedule(ScheduleType scheduleType, int classID, int lessonID, int teacherID, CourseType courseType)
         {
             ScheduleType = scheduleType;
             ClassID = classID;
             LessonID = lessonID;
             TeacherID = teacherID;
+            CourseType = courseType;
         }
 
         public int ClassID
@@ -34,6 +35,12 @@ namespace HellGarden.CourseScheduling.Domain.Entity
         }
 
         public ScheduleType ScheduleType
+        {
+            get;
+            private set;
+        }
+
+        public CourseType CourseType
         {
             get;
             private set;

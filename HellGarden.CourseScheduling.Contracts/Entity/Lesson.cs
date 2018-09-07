@@ -6,12 +6,11 @@ namespace HellGarden.CourseScheduling.Domain.Entity
 {
     public class Lesson
     {
-        public Lesson(int id, int weekDay, string startTime, string endTime)
+        public Lesson(int id, int weekDay, string remark)
         {
             ID = id;
             WeekDay = weekDay;
-            StartTime = startTime;
-            EndTime = endTime;
+            Remark = remark;
         }
 
         public int ID
@@ -26,13 +25,7 @@ namespace HellGarden.CourseScheduling.Domain.Entity
             private set;
         }
 
-        public string StartTime
-        {
-            get;
-            private set;
-        }
-
-        public string EndTime
+        public string Remark
         {
             get;
             private set;
