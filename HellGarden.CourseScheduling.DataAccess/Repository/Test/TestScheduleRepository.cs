@@ -9,19 +9,19 @@ namespace HellGarden.CourseScheduling.DataAccess.Repository.Test
 {
     public class TestScheduleRepository : ScheduleRepository
     {
-        public override IEnumerable<Schedule> GetSchedules()
+        public override void Add(Schedule @class)
         {
-            return new List<Schedule>();
+            throw new NotImplementedException();
         }
 
-        protected override IEnumerable<Schedule> GetSchedules(int teacherID)
+        public override IEnumerable<Schedule> Get()
         {
-            return new List<Schedule>();
+            throw new NotImplementedException();
         }
 
-        public override bool Add(int classID, int teacherID, int lessonID, ScheduleType scheduleType)
+        public override void Remove(Schedule @class)
         {
-            return true;
+            throw new NotImplementedException();
         }
     }
 }

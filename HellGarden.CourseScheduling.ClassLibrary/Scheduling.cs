@@ -14,16 +14,16 @@ namespace HellGarden.CourseScheduling.ClassLibrary
         {
             Schedule[] result = null;
 
-            var lessons = lessonRepository.GetLessons();
+            var lessons = lessonRepository.Get();
 
-            var classes = classRepository.GetClasses();
+            var classes = classRepository.Get();
             var classesCount = classes.Count();
             List<Schedule> schedules = new List<Schedule>();
             int count = 0;
             
             List<Class> isScheduleClasses = new List<Class>();
 
-            while(true)
+            while (true)
             {
                 count++;
                 //int index = new Random().Next(classesCount);

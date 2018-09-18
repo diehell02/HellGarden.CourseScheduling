@@ -8,7 +8,17 @@ namespace HellGarden.CourseScheduling.DataAccess.Repository.Test
 {
     public class TestLessonRepository : LessonRepository
     {
-        public override IEnumerable<Lesson> GetLessons()
+        public override void Add(Lesson @class)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Remove(Lesson @class)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<Lesson> Get()
         {
             return new List<Lesson>()
             {

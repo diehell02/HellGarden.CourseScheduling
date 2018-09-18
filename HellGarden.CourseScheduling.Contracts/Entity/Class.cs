@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using HellGarden.CourseScheduling.Domain.Enum;
 
 namespace HellGarden.CourseScheduling.Domain.Entity
 {
@@ -53,6 +54,34 @@ namespace HellGarden.CourseScheduling.Domain.Entity
             List<KeyValuePair<Lesson, Course>> keyValuePairs = new List<KeyValuePair<Lesson, Course>>();
             List<Course> courses = new List<Course>();
 
+            //foreach (var course in Courses)
+            //{
+            //    if (course.RemainLessonPeriod > 0)
+            //    {
+            //        for (int i = 0; i < course.RemainLessonPeriod; i++)
+            //        {
+            //            courses.Insert(random.Next(courses.Count), course);
+            //        }
+            //    }
+            //}
+
+            //courses.ForEach(course =>
+            //{
+            //    var lesson = lessons[random.Next(lessons.Count)];
+            //    lessons.Remove(lesson);
+
+            //    var keyValuePair = new KeyValuePair<Lesson, Course>(lesson, course);
+
+            //    keyValuePairs.Insert(random.Next(keyValuePairs.Count), keyValuePair);
+            //});
+
+            //lessons.ForEach(lesson =>
+            //{
+            //    var keyValuePair = new KeyValuePair<Lesson, Course>(lesson, null);
+
+            //    keyValuePairs.Insert(random.Next(keyValuePairs.Count), keyValuePair);
+            //});
+
             foreach (var course in Courses)
             {
                 if (course.RemainLessonPeriod > 0)
@@ -64,22 +93,49 @@ namespace HellGarden.CourseScheduling.Domain.Entity
                 }
             }
 
-            courses.ForEach(course =>
+            for(int i = 0; i < lessons.Count - courses.Count; i++)
             {
-                var lesson = lessons[random.Next(lessons.Count)];
-                lessons.Remove(lesson);
+                courses.Insert(random.Next(courses.Count), null);
+            }
+
+            for(int i = 0; i < lessons.Count; i++)
+            {
+                var lesson = lessons[i];
+                Course course = null;
+
+                if (lesson.No >= 8)
+                {
+                    course = courses.First();                    
+                }
+                else
+                {
+                    for(int j = 0; j < courses.Count; j++)
+                    {
+                        var _course = courses[j];
+
+                        if(_course.CourseType == CourseType.Listening || _course.CourseType == CourseType.Meeting || _course.CourseType == CourseType.Study)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            course = _course;
+                            break;
+                        }
+                    }
+
+                    if(course is null)
+                    {
+                        course = courses.First();
+                    }
+                }
+
+                courses.Remove(course);
 
                 var keyValuePair = new KeyValuePair<Lesson, Course>(lesson, course);
 
-                keyValuePairs.Insert(random.Next(keyValuePairs.Count), keyValuePair);
-            });
-
-            lessons.ForEach(lesson =>
-            {
-                var keyValuePair = new KeyValuePair<Lesson, Course>(lesson, null);
-
-                keyValuePairs.Insert(random.Next(keyValuePairs.Count), keyValuePair);
-            });
+                keyValuePairs.Add(keyValuePair);
+            }
 
             return keyValuePairs;
         }

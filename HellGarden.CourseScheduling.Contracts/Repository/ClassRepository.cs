@@ -5,8 +5,7 @@ using System.Text;
 
 namespace HellGarden.CourseScheduling.Domain.Repository
 {
-    public abstract class ClassRepository
+    public abstract class ClassRepository : BaseRepository<Class>
     {
-        public abstract IEnumerable<Class> GetClasses();
     }
 }

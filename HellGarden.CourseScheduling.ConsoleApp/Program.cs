@@ -6,6 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using HellGarden.CourseScheduling.DataAccess.Repository.Local;
+using HellGarden.CourseScheduling.Domain.Repository;
+using HellGarden.CourseScheduling.Domain.Entity;
+using System.IO;
 
 namespace HellGarden.CourseScheduling.ConsoleApp
 {
@@ -13,17 +17,34 @@ namespace HellGarden.CourseScheduling.ConsoleApp
     {
         static void Main(string[] args)
         {
+            var context = new LocalContext();
+            var classRepository = new LocalClassRepository(context);
+            var lessonRepository = new LocalLessonRepository(context);
+            var scheduleRepository = new LocalScheduleRepository(context);
+            var teacherRepository = new LocalTeacherRepository(context);
+
+            // 导入
+            string path = string.Empty;
+
+            while (string.IsNullOrEmpty(path))
+            {
+                Console.WriteLine("请输入导入文件路径：");
+                path = Console.ReadLine();
+
+                if(!File.Exists(path))
+                {
+                    path = string.Empty;
+                    Console.WriteLine("文件路径有误，请重新输入");
+                }
+            }
+
+            FileUtil.Import(path, classRepository, lessonRepository, scheduleRepository, teacherRepository);
+
             var scheduling = new Scheduling();
 
-            var result = scheduling.Do(new TestClassRepository(), new TestScheduleRepository(), new TestLessonRepository());
+            var result = scheduling.Do(classRepository, scheduleRepository, lessonRepository);
 
-            //result.ForEach(schedules =>
-            //{
-            //    Console.WriteLine("——————————————分割线——————————————");
-            //    Console.WriteLine(JsonConvert.SerializeObject(schedules, Formatting.Indented));
-            //});
-
-            FileUtil.Save(result, new TestClassRepository(), new TestLessonRepository());
+            FileUtil.Save(result, classRepository, lessonRepository);
 
             Console.ReadLine();
         }

@@ -6,6 +6,12 @@ namespace HellGarden.CourseScheduling.Domain.Entity
 {
     public class Teacher
     {
+        public Teacher(int id, string name)
+        {
+            ID = id;
+            Name = name;
+        }
+
         public int ID
         {
             get;

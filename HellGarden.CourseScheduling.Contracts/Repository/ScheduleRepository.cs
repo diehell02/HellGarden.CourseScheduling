@@ -3,20 +3,22 @@ using HellGarden.CourseScheduling.Domain.Enum;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace HellGarden.CourseScheduling.Domain.Repository
 {
-    public abstract class ScheduleRepository
+    public abstract class ScheduleRepository : BaseRepository<Schedule>
     {
-        public abstract IEnumerable<Schedule> GetSchedules();
+        private IEnumerable<Schedule> Get(int teacherID)
+        {
+            var schedules = Get();
 
-        protected abstract IEnumerable<Schedule> GetSchedules(int teacherID);
-
-        public abstract bool Add(int classID, int teacherID, int lessonID, ScheduleType scheduleType);
+            return schedules.Where(schedule => { return schedule.TeacherID == teacherID; });
+        }
 
         public bool IsTeacherAvaliable(int teacherID, int lessonID)
         {
-            var schedules = GetSchedules(teacherID);
+            var schedules = Get(teacherID);
 
             foreach(var schedule in schedules)
             {
