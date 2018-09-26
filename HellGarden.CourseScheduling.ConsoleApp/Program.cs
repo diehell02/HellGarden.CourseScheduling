@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using HellGarden.CourseScheduling.DataAccess.Repository.Local;
 using HellGarden.CourseScheduling.Domain.Repository;
 using HellGarden.CourseScheduling.Domain.Entity;
@@ -23,29 +22,33 @@ namespace HellGarden.CourseScheduling.ConsoleApp
             var teacherRepository = new LocalTeacherRepository(context);
 
             // 导入
-            string path = string.Empty;
+            string importPath = string.Empty;
 
-            while (string.IsNullOrEmpty(path))
+            while (string.IsNullOrEmpty(importPath))
             {
                 Console.WriteLine("请输入导入文件路径：");
-                path = Console.ReadLine();
+                importPath = Console.ReadLine();
 
-                if(!File.Exists(path))
+                if(!File.Exists(importPath))
                 {
-                    path = string.Empty;
+                    importPath = string.Empty;
                     Console.WriteLine("文件路径有误，请重新输入");
                 }
             }
 
-            FileUtil.Import(path, classRepository, lessonRepository, scheduleRepository, teacherRepository);
+            FileUtil.Import(importPath, classRepository, lessonRepository, scheduleRepository, teacherRepository);
 
             var scheduling = new Scheduling();
 
             var result = scheduling.Do(classRepository, scheduleRepository, lessonRepository);
 
-            FileUtil.Save(result, classRepository, lessonRepository);
+            // 导出
+            string outportPath = string.Format(@"{0}导出\outport.xlsx", AppDomain.CurrentDomain.BaseDirectory);
+
+            FileUtil.Save(outportPath, result, classRepository, lessonRepository);
 
             Console.WriteLine("导出完毕");
+            Console.WriteLine("导出地址:{0}", outportPath);
 
             Console.ReadLine();
         }

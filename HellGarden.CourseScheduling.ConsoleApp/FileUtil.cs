@@ -15,11 +15,16 @@ namespace HellGarden.CourseScheduling.ConsoleApp
 {
     class FileUtil
     {
-        public static void Save(Schedule[] schedules, ClassRepository classRepository, LessonRepository lessonRepository)
+        public static void Save(string path, Schedule[] schedules, ClassRepository classRepository, LessonRepository lessonRepository)
         {
-            string path = string.Format(@"{0}\outport.xlsx", AppDomain.CurrentDomain.BaseDirectory);
-
             IWorkbook workbook = null;
+
+            var directoryInfo = new DirectoryInfo(path);
+
+            if (!directoryInfo.Parent.Exists)
+            {
+                Directory.CreateDirectory(directoryInfo.Parent.FullName);
+            }
 
             var fs = File.OpenWrite(path);
 

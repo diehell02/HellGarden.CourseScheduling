@@ -121,33 +121,6 @@ namespace HellGarden.CourseScheduling.Domain.Entity
                     course = courses.First();
                 }
 
-                //if (lesson.No >= 8)
-                //{
-                //    course = courses.First();                    
-                //}
-                //else
-                //{
-                //    for(int j = 0; j < courses.Count; j++)
-                //    {
-                //        var _course = courses[j];
-
-                //        if(_course.CourseType == CourseType.Listening || _course.CourseType == CourseType.Meeting || _course.CourseType == CourseType.Study)
-                //        {
-                //            continue;
-                //        }
-                //        else
-                //        {
-                //            course = _course;
-                //            break;
-                //        }
-                //    }
-
-                //    if(course is null)
-                //    {
-                //        course = courses.First();
-                //    }
-                //}
-
                 courses.Remove(course);
 
                 var keyValuePair = new KeyValuePair<Lesson, Course>(lesson, course);

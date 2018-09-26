@@ -87,7 +87,7 @@ namespace HellGarden.CourseScheduling.Domain.Entity
                     }
                     break;
                 case CourseTypeEnum.Range:
-                    if (lesson.No >= Min)
+                    if (lesson.No >= Min && lesson.No <= Max)
                     {
                         if (WeekDay == 0)
                         {

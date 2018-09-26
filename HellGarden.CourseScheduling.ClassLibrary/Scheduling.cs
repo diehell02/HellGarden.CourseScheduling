@@ -29,17 +29,8 @@ namespace HellGarden.CourseScheduling.ClassLibrary
                 period = Math.Max(lesson.No, period);
             }
 
-            int count = 0;
-
             while (true)
             {
-                count++;
-                //int index = new Random().Next(classesCount);
-                //classes.ElementAt(index).Swap();
-
-                //schedules.Clear();
-
-                bool flag0 = false;
                 foreach (var @class in classes)
                 {
                     if(isScheduleClasses.Contains(@class))
@@ -51,42 +42,6 @@ namespace HellGarden.CourseScheduling.ClassLibrary
 
                     bool flag1 = false;
                     List<Schedule> _schedules = new List<Schedule>();
-
-                    //foreach (var lesson in lessons)
-                    //{
-                    //    var lessonID = lesson.ID;
-
-                    //    var course = @class.GetAvailableCourse(lessonID);
-
-                    //    var teacherID = course.TeacherID;
-
-                    //    if (!scheduleRepository.IsTeacherAvaliable(teacherID, lessonID))
-                    //    {
-                    //        flag1 = true;
-                    //        break;
-                    //    }
-                    //    else
-                    //    {
-                    //        if(teacherID > 0)
-                    //        {
-                    //            var temp = new List<Schedule>();
-                    //            temp.AddRange(schedules);
-                    //            temp.AddRange(_schedules);
-
-                    //            var _schedulesResult = temp.Where(schedule => schedule.TeacherID > 0 && schedule.TeacherID == teacherID && schedule.LessonID == lessonID);
-                    //            if (_schedulesResult.Count() > 0)
-                    //            {
-                    //                flag1 = true;
-                    //                break;
-                    //            }
-                    //        }
-
-                    //        flag1 = false;
-                    //        course.ScheduleLesson();
-                    //        _schedules.Add(new Schedule(ScheduleType.Schedule, @class.ID, lessonID, teacherID, course.CourseType));
-                    //        continue;
-                    //    }
-                    //}
 
                     var keyValuePairs = @class.GetLessonCourses(lessons, days, period);
 
