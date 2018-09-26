@@ -129,26 +129,27 @@ namespace HellGarden.CourseScheduling.ConsoleApp
             return lessons;
         }
 
-        private static IDictionary<CourseType, int> GetCourses(ISheet sheet)
+        private static List<CourseType> GetCourses(ISheet sheet)
         {
-            var courses = new Dictionary<CourseType, int>();
+            var courses = new List<CourseType>();
 
             for (int i = 1; i <= sheet.LastRowNum; i++)
             {
                 var row = sheet.GetRow(i);
-                var courseName = row.GetCell(0).StringCellValue;
-                var coursePeriod = (int)row.GetCell(1).NumericCellValue;
+                var name = row.GetCell(0).StringCellValue;
+                var period = (int)row.GetCell(1).NumericCellValue;
+                var weekDay = (int)row.GetCell(2).NumericCellValue;
+                var min = (int)row.GetCell(3).NumericCellValue;
+                var max = (int)row.GetCell(4).NumericCellValue;
+                var isCommon = (int)row.GetCell(5).NumericCellValue;
 
-                if(Enum.TryParse(courseName, out CourseType courseType))
-                {
-                    courses.Add(courseType, coursePeriod);
-                }
+                courses.Add(new CourseType(name, period, weekDay, min, max, isCommon));
             }
 
             return courses;
         }
 
-        private static List<Class> GetClasses(ISheet sheet, IDictionary<CourseType, int> courses, List<Teacher> teachers)
+        private static List<Class> GetClasses(ISheet sheet, List<CourseType> courses, List<Teacher> teachers)
         {
             var classes = new List<Class>();
             var teacherID = 1;
@@ -158,8 +159,15 @@ namespace HellGarden.CourseScheduling.ConsoleApp
             {
                 var row = sheet.GetRow(i);
                 var courseName = row.GetCell(0).StringCellValue;
+                CourseType courseType = null;
 
-                if (Enum.TryParse(courseName, out CourseType courseType))
+                var result = courses.Where(course => course.Name == courseName);
+                if(result.Count() > 0)
+                {
+                    courseType = result.First();
+                }
+
+                if (courseType != null)
                 {
                     for (int j = 1; j < row.LastCellNum; j++)
                     {
@@ -187,7 +195,7 @@ namespace HellGarden.CourseScheduling.ConsoleApp
 
                             if (classCourses.Where(classCourse => classCourse.CourseType == courseType).Count() == 0)
                             {
-                                classCourses.Add(new Course(teacher.ID, courseType.ToString(), courses[courseType], courseType));
+                                classCourses.Add(new Course(teacher.ID, courseType));
                             }
                         }
                     }
@@ -197,9 +205,13 @@ namespace HellGarden.CourseScheduling.ConsoleApp
             int classID = 1;
             foreach(var classCourses in classesCourses)
             {
-                classCourses.Value.Add(new Course(0, CourseType.Study.ToString(), courses[CourseType.Study], CourseType.Study));
-                classCourses.Value.Add(new Course(0, CourseType.Listening.ToString(), courses[CourseType.Listening], CourseType.Listening));
-                classCourses.Value.Add(new Course(0, CourseType.Meeting.ToString(), courses[CourseType.Meeting], CourseType.Meeting));
+                courses.ForEach(courseType =>
+                {
+                    if(courseType.IsCommon && classCourses.Value.Where(_course => _course.CourseType != courseType).Count() > 0)
+                    {
+                        classCourses.Value.Add(new Course(0, courseType));
+                    }
+                });
 
                 classes.Add(new Class(classID++, string.Format($"Class{classCourses.Key}"), classCourses.Value.ToArray()));
             }

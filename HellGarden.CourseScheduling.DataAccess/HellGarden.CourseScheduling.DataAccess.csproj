@@ -5,6 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Repository\SQLite\**" />
+    <Compile Remove="Repository\Test\**" />
+    <EmbeddedResource Remove="Repository\SQLite\**" />
+    <EmbeddedResource Remove="Repository\Test\**" />
+    <None Remove="Repository\SQLite\**" />
+    <None Remove="Repository\Test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HellGarden.CourseScheduling.Contracts\HellGarden.CourseScheduling.Domain.csproj" />
   </ItemGroup>
 

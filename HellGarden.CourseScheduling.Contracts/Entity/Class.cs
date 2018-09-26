@@ -107,23 +107,9 @@ namespace HellGarden.CourseScheduling.Domain.Entity
                 {
                     var _course = courses[j];
 
-                    switch(_course.CourseType)
+                    if(!_course.CourseType.IsFit(lesson))
                     {
-                        case CourseType.Listening:
-                            if(lesson.No != 1)
-                            {
-                                continue;
-                            }
-                            break;
-                        case CourseType.Meeting:
-                        case CourseType.Study:
-                            if(lesson.No < period - 1)
-                            {
-                                continue;
-                            }
-                            break;
-                        default:
-                            break;
+                        continue;
                     }
 
                     course = _course;

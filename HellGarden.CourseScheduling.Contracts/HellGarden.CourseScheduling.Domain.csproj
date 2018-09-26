@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Enum\CourseType.cs" />
     <Compile Remove="Interface\IClass.cs" />
     <Compile Remove="Interface\ICourse.cs" />
     <Compile Remove="Interface\ILesson.cs" />

@@ -9,12 +9,12 @@ namespace HellGarden.CourseScheduling.Domain.Entity
     {
         private int lessonPeriod;
 
-        public Course(int teacherID, string name, int lessonPeriod, CourseType courseType)
+        public Course(int teacherID, CourseType courseType)
         {
-            this.lessonPeriod = lessonPeriod;
+            this.lessonPeriod = courseType.Period;
 
             TeacherID = teacherID;
-            Name = name;
+            Name = courseType.Name;
             RemainLessonPeriod = lessonPeriod;
             CourseType = courseType;
         }
