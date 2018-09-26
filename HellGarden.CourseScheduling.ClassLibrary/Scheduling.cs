@@ -14,14 +14,22 @@ namespace HellGarden.CourseScheduling.ClassLibrary
         {
             Schedule[] result = null;
 
-            var lessons = lessonRepository.Get();
-
+            var lessons = new List<Lesson>(lessonRepository.Get());
             var classes = classRepository.Get();
             var classesCount = classes.Count();
-            List<Schedule> schedules = new List<Schedule>();
-            int count = 0;
-            
+            List<Schedule> schedules = new List<Schedule>();                   
             List<Class> isScheduleClasses = new List<Class>();
+
+            int days = 0;
+            int period = 0;
+
+            foreach(var lesson in lessons)
+            {
+                days = Math.Max(lesson.WeekDay, days);
+                period = Math.Max(lesson.No, period);
+            }
+
+            int count = 0;
 
             while (true)
             {
@@ -80,7 +88,7 @@ namespace HellGarden.CourseScheduling.ClassLibrary
                     //    }
                     //}
 
-                    var keyValuePairs = @class.GetLessonCourses(new List<Lesson>(lessons));
+                    var keyValuePairs = @class.GetLessonCourses(lessons, days, period);
 
                     foreach(var keyValuePair in keyValuePairs)
                     {

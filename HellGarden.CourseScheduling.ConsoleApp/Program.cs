@@ -46,6 +46,8 @@ namespace HellGarden.CourseScheduling.ConsoleApp
 
             FileUtil.Save(result, classRepository, lessonRepository);
 
+            Console.WriteLine("导出完毕");
+
             Console.ReadLine();
         }
     }

@@ -1,0 +1,28 @@
+{
+  "CourseTypes": [
+    {
+      "Name": "ÌýÁ¦",
+      "Data": {
+        "WeekDay": 0,
+        "Min": 1,
+        "Max": 1
+      }
+    },
+    {
+      "Name": "°à»á",
+      "Data": {
+        "WeekDay": 5,
+        "Min": 7,
+        "Max": 9
+      }
+    },
+    {
+      "Name": "×ÔÏ°",
+      "Data": {
+        "WeekDay": 0,
+        "Min": 8,
+        "Max": 9
+      }
+    }
+  ]
+}

@@ -49,7 +49,7 @@ namespace HellGarden.CourseScheduling.Domain.Entity
             return courses[random.Next(courses.Count)];
         }
 
-        public List<KeyValuePair<Lesson, Course>> GetLessonCourses(List<Lesson> lessons)
+        public List<KeyValuePair<Lesson, Course>> GetLessonCourses(List<Lesson> lessons, int days, int period)
         {
             List<KeyValuePair<Lesson, Course>> keyValuePairs = new List<KeyValuePair<Lesson, Course>>();
             List<Course> courses = new List<Course>();
@@ -103,32 +103,64 @@ namespace HellGarden.CourseScheduling.Domain.Entity
                 var lesson = lessons[i];
                 Course course = null;
 
-                if (lesson.No >= 8)
+                for (int j = 0; j < courses.Count; j++)
                 {
-                    course = courses.First();                    
-                }
-                else
-                {
-                    for(int j = 0; j < courses.Count; j++)
-                    {
-                        var _course = courses[j];
+                    var _course = courses[j];
 
-                        if(_course.CourseType == CourseType.Listening || _course.CourseType == CourseType.Meeting || _course.CourseType == CourseType.Study)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            course = _course;
+                    switch(_course.CourseType)
+                    {
+                        case CourseType.Listening:
+                            if(lesson.No != 1)
+                            {
+                                continue;
+                            }
                             break;
-                        }
+                        case CourseType.Meeting:
+                        case CourseType.Study:
+                            if(lesson.No < period - 1)
+                            {
+                                continue;
+                            }
+                            break;
+                        default:
+                            break;
                     }
 
-                    if(course is null)
-                    {
-                        course = courses.First();
-                    }
+                    course = _course;
+                    break;
                 }
+
+                if (course is null)
+                {
+                    course = courses.First();
+                }
+
+                //if (lesson.No >= 8)
+                //{
+                //    course = courses.First();                    
+                //}
+                //else
+                //{
+                //    for(int j = 0; j < courses.Count; j++)
+                //    {
+                //        var _course = courses[j];
+
+                //        if(_course.CourseType == CourseType.Listening || _course.CourseType == CourseType.Meeting || _course.CourseType == CourseType.Study)
+                //        {
+                //            continue;
+                //        }
+                //        else
+                //        {
+                //            course = _course;
+                //            break;
+                //        }
+                //    }
+
+                //    if(course is null)
+                //    {
+                //        course = courses.First();
+                //    }
+                //}
 
                 courses.Remove(course);
 
